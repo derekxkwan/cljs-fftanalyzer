@@ -28,7 +28,7 @@
   )
 
 (defn handle-error [error]
-  (.log js/console "error obtaining microphone"))
+  (js/alert "error obtaining microphone"))
 
 (defn set-mic-input [context]
   (-> (-> js/navigator .-mediaDevices)
