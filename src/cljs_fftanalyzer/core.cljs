@@ -7,12 +7,15 @@
 
 (def fft-size (r/atom 4096))
 (def win js/window)
-(def ctx (or (win.AudioContext.) (win.webkitAudioContext.)))
+(def ctx nil)
 (def cnv-prop {:w 500 :h 300})
-(def app-state (r/atom {:sr 44100 :enabled false}))
+(def app-state (r/atom {:sr nil :enabled false}))
 
 ;; since there's no function hoisting in clojurescript...
 (defn enable-audio []
+  (set! ctx (let [a-ctx (win.AudioContext.)]
+              (if (not (nil? a-ctx)) a-ctx
+                  (win.webkitAudioContext.))))
   (fft/set-canvas (.getElementById js/document "cnv"))
   (fft/create-analyzer ctx @fft-size)
   (fft/set-mic-input ctx)
@@ -45,9 +48,9 @@
   )
 
 (defn show-sr []
-  (let [sr (.-sampleRate ctx)]
+  (let [sr (if (not (nil? ctx)) (.-sampleRate ctx) "not loaded")]
     (swap! app-state merge {:sr sr})
-    (str " current sample rate: " (str sr))
+    (str " current sample rate: " (str (get-in @app-state [:sr])))
     ))
 
 
