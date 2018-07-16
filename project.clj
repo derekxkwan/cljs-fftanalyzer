@@ -45,7 +45,7 @@
                ;; lein cljsbuild once min
                {:id "min"
                 :source-paths ["src"]
-                :compiler {:output-to "resources/public/js/compiled/cljs_fftanalyzer.js"
+                :compiler {:output-to "docs/js/cljs_fftanalyzer.js"
                            :main cljs-fftanalyzer.core
                            :optimizations :advanced
                            :pretty-print false}}]}
