@@ -21,8 +21,11 @@
   (fft/draw)
   )
 
-; view stuff
+(defn button-click []
+  (swap! app-state merge @app-state {:enabled true})
+  (enable-audio))
 
+; view stuff
 
 (defn provide-canvas []
   [:canvas {:id "cnv" :width (:w cnv-prop) :height (:h cnv-prop)}]
@@ -56,12 +59,10 @@
 (defn provide-button []
   [:input {:type "button"
            :value "enable mic"
-           :on-click #(do (swap! app-state merge @app-state {:enabled true})
-                           (enable-audio))
+           :on-click #(enable-audio)
+           :on-touch-start #(enable-audio)
            }])
-                           
-
-
+                         
 (defn page []
   [:div
    [:div
