@@ -13,9 +13,7 @@
 
 ;; since there's no function hoisting in clojurescript...
 (defn enable-audio []
-  (set! ctx (let [a-ctx (win.AudioContext.)
-                  wk-ctx (win.webkitAudioContext.)]
-              (or (a-ctx) (wk-ctx))))
+  (set! ctx (or (win.AudioContext.) (win.webkitAudioContext.)))
   
   (fft/set-canvas (.getElementById js/document "cnv"))
   (fft/create-analyzer ctx @fft-size)
